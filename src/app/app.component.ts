@@ -6,5 +6,26 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'todo-app';
+  tasks: string[] = [];
+  filteredTasks: string[] = [];
+  selectedFilter: string = '';
+
+  addTask(task: string) {
+    this.tasks.push(task);
+    this.filterTasks();
+  }
+
+  filterTasks() {
+    if (this.selectedFilter === 'pendientes') {
+      this.filteredTasks = this.tasks.filter(task => !this.isTaskCompleted(task));
+    } else if (this.selectedFilter === 'completadas') {
+      this.filteredTasks = this.tasks.filter(task => this.isTaskCompleted(task));
+    } else {
+      this.filteredTasks = this.tasks;
+    }
+  }
+
+isTaskCompleted(task: string): boolean {
+  return task.includes('completado');
+}
 }
